@@ -28,6 +28,7 @@ bash scripts/run_cloud.sh
 ```
 
 ### folder structure
+```
 ├─dataset(表情识别数据集)             
 │  ├─test
 │  │  ├─angry
@@ -51,4 +52,4 @@ bash scripts/run_cloud.sh
 ├─scripts
 └─test
     └─send-receive
-
+```
