@@ -26,3 +26,29 @@ bash scripts/run_device.sh
 # cloud
 bash scripts/run_cloud.sh
 ```
+
+### folder structure
+├─dataset(表情识别数据集)             
+│  ├─test
+│  │  ├─angry
+│  │  ├─disgust
+│  │  ├─fear
+│  │  ├─happy
+│  │  ├─neutral
+│  │  ├─sad
+│  │  └─surprise
+│  └─train
+│      ├─angry
+│      ├─disgust
+│      ├─fear
+│      ├─happy
+│      ├─neutral
+│      ├─sad
+│      └─surprise
+├─main(训练、测试代码入口)
+│  └─result
+├─sample(需要识别的图片放这里)
+├─scripts
+└─test
+    └─send-receive
+
