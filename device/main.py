@@ -1,9 +1,6 @@
-import torch
-from torch import nn
 from torchvision import transforms
 from PIL import Image
 import onnxruntime
-import torchvision.models as models
 import argparse
 import threading
 from picsplit import PicSplit
