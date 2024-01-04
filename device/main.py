@@ -8,6 +8,8 @@ import argparse
 import threading
 from picsplit import PicSplit
 import time
+import socket
+import json
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -35,6 +37,20 @@ def run(args):
         ort_inputs = {'input': frame}
         ort_output = ort_session.run(None,ort_inputs)[0]
         print(ort_output.argmax(axis=1)[0])
+       
+        server_ip = '127.0.0.1'
+        server_port = 12345
+
+        data = {"message": ort_output.argmax(axis=1)[0]}
+        json_data = json.dumps(data)
+
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+        client_socket.connect((server_ip, server_port))
+
+        client_socket.sendall(json_data.encode('utf-8'))
+
+    client_socket.close()
 
 '''
 0 -> angry
