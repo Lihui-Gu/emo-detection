@@ -47,7 +47,7 @@ def run(args):
 
         client_socket.sendall(json_data.encode('utf-8'))
 
-    client_socket.close()
+        client_socket.close()
 
 '''
 0 -> angry
