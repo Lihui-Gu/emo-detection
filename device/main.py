@@ -35,7 +35,7 @@ def run(args):
         ort_output = ort_session.run(None,ort_inputs)[0]
         print(ort_output.argmax(axis=1)[0])
        
-        server_ip = '127.0.0.1'
+        server_ip = '10.82.211.224'
         server_port = 12345
 
         data = {"message": str(ort_output.argmax(axis=1)[0])}

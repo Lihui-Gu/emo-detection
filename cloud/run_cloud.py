@@ -18,6 +18,11 @@ print(f"connect: {client_address}")
 data = client_socket.recv(1024).decode('utf-8')
 print(f"receive: {data}")
 
+parsed_data = json.loads(data)
+value = int(parsed_data['message'])
+
+print(value)
+
 client_socket.close()
 server_socket.close()
 
