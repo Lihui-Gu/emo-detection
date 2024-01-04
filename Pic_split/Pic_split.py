@@ -51,25 +51,27 @@ class Pic_split:
         self.ls = []
         video = cv2.VideoCapture()
         if not video.open(video_path):
-            print("can not open the video")
-            exit(1)
-        x = 0
-        idx = 0
-        while True:
-            _, frame = video.read()
-            if frame is None:
-                break
-            if x % self.step == 0:
-                if self.is_save:
-                    save_path = os.path.join('pic/' + str(idx) + '.png')
-                    cv2.imwrite(save_path, frame)
-                    if not os.path.exists('pic/' + str(idx)):
-                        os.makedirs('pic/' + str(idx))
-                cnt = self.test_image(frame, 'pic/' + str(idx) + '/')
-                idx += 1
-                print('frame{}:emo_count:{}'.format(idx, cnt))
-            x += 1
-        video.release()
+            frame = cv2.imread(video_path)
+            cnt = self.test_image(frame, 'pic/')
+            print('emo_count:{}'.format(cnt))
+        else:
+            x = 0
+            idx = 0
+            while True:
+                _, frame = video.read()
+                if frame is None:
+                    break
+                if x % self.step == 0:
+                    if self.is_save:
+                        save_path = os.path.join('pic/' + str(idx) + '.jpg')
+                        cv2.imwrite(save_path, frame)
+                        if not os.path.exists('pic/' + str(idx)):
+                            os.makedirs('pic/' + str(idx))
+                    cnt = self.test_image(frame, 'pic/' + str(idx) + '/')
+                    idx += 1
+                    print('frame{}:emo_count:{}'.format(idx, cnt))
+                x += 1
+            video.release()
         self.ls.reverse()
 
     def get(self):
@@ -78,6 +80,3 @@ class Pic_split:
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
             return img
         return None
-
-
-
