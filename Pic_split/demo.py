@@ -8,7 +8,7 @@ def main():
     sp = Pic_split()
     sp.run(video_path)
     while True:
-        frame = sp.get()
+        frame = sp.get()#ndarray，HxWxd格式，值的范围是0-255，d按RGB顺序
         if frame is None:
             break
         # do sth here
