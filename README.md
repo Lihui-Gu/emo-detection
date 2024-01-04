@@ -28,6 +28,7 @@ bash scripts/run_cloud.sh
 ```
 
 ### folder structure
+Put `in.mp4` in `data/video/in.mp4`.
 ```
 ├─dataset(表情识别数据集)             
 │  ├─test
