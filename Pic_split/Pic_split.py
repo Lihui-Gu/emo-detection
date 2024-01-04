@@ -74,7 +74,8 @@ class Pic_split:
 
     def get(self):
         if self.ls:
-            return self.ls.pop()
+            input_image = self.ls.pop().numpy()
+            return input_image
         return None
 
 
