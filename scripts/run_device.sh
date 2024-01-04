@@ -1,1 +1,1 @@
-
+python device/main.py
