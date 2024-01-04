@@ -38,7 +38,7 @@ def run(args):
         server_ip = '127.0.0.1'
         server_port = 12345
 
-        data = {"message": ort_output.argmax(axis=1)[0]}
+        data = {"message": str(ort_output.argmax(axis=1)[0])}
         json_data = json.dumps(data)
 
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
