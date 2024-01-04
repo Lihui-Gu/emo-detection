@@ -3,29 +3,29 @@ import scipy.io as sio
 import os
 from centerface import CenterFace
 from torchvision import transforms
+from PIL import Image
 
-test_transform = transforms.Compose([
+pic_transform = transforms.Compose([
     transforms.Resize((224, 224)),
     transforms.ToTensor(),
-    transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
     transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
 ])
 
 class PicSplit:
-    def __init__(self):
+    def __init__(self, model_path):
         self.is_save = False
         self.ls = []
         self.score_bar = 0.75
         self.step = 600
+        self.centerface = CenterFace(model_path)
 
     def test_image(self, frame, path):
         h, w = frame.shape[:2]
         landmarks = True
-        centerface = CenterFace(landmarks=landmarks)
         if landmarks:
-            dets, lms = centerface(frame, h, w, threshold=0.35)
+            dets, lms = self.centerface(frame, h, w, threshold=0.35)
         else:
-            dets = centerface(frame, threshold=0.35)
+            dets = self.centerface(frame, threshold=0.35)
         cnt = 0
         for det in dets:
             boxes, score = det[:4], det[4]
@@ -85,6 +85,8 @@ class PicSplit:
         if self.ls:
             img = self.ls.pop()
             img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            img = Image.fromarray(img)
+            img = pic_transform(img).unsqueeze(0).numpy()
             return img
         return None
 

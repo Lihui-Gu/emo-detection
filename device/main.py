@@ -5,7 +5,9 @@ from PIL import Image
 import onnxruntime
 import torchvision.models as models
 import argparse
+import threading
 from picsplit import PicSplit
+import time
 
 def parse_args():
     parser = argparse.ArgumentParser()
@@ -17,21 +19,22 @@ def parse_args():
 
 
 def run(args):
-    test_transform = transforms.Compose([
-        transforms.Resize((224, 224)),
-        transforms.ToTensor(),
-        transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
-        transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
-    ])
-    input_image = Image.open(image_path)
-    device = torch.device('cpu')
-    input_image = test_transform(input_image)
-    input_image = input_image.unsqueeze(0)
-    input_image = input_image.to(device).numpy()
-    ort_session = onnxruntime.InferenceSession(args.emo_model)
-    ort_inputs = {'input': input_image}
-    ort_output = ort_session.run(None,ort_inputs)[0]
-    print(ort_output.argmax(axis=1)[0])
+    sp = PicSplit(args.split_model)
+    def run_pic_split():
+        sp.run(args.video_path)
+    thread = threading.Thread(target=run_pic_split)
+    thread.start()
+    print("===============")
+    while True:
+        frame = sp.get()
+        if frame is None:
+            print("frame is none, sleep 1s ...")
+            time.sleep(1)
+            continue
+        ort_session = onnxruntime.InferenceSession(args.emo_model)
+        ort_inputs = {'input': frame}
+        ort_output = ort_session.run(None,ort_inputs)[0]
+        print(ort_output.argmax(axis=1)[0])
 
 '''
 0 -> angry
