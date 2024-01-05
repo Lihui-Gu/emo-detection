@@ -1,2 +1,2 @@
 # 预测表情
-python ../main/test.py
+python cloud/run_cloud.py

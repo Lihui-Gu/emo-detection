@@ -24,6 +24,8 @@ def run(args):
     thread = threading.Thread(target=run_pic_split)
     thread.start()
     print("===============")
+    server_ip = '10.82.211.224'
+    server_port = 8080
     while True:
         frame = sp.get()
         if frame is None:
@@ -34,9 +36,6 @@ def run(args):
         ort_inputs = {'input': frame}
         ort_output = ort_session.run(None,ort_inputs)[0]
         print(ort_output.argmax(axis=1)[0])
-       
-        server_ip = '10.82.211.224'
-        server_port = 12345
 
         data = {"message": str(ort_output.argmax(axis=1)[0])}
         json_data = json.dumps(data)
