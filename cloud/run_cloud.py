@@ -17,13 +17,12 @@ print(f"connect: {client_address}")
 
 while True:
     data = client_socket.recv(1024).decode('utf-8')
-    if not data:
-        continue
-    print(f"receive: {data}")
-    parsed_data = json.loads(data)
-    value = int(parsed_data['message'])
-    print(value)
+    if data:
+        print(f"receive: {data}")
+        parsed_data = json.loads(data)
+        value = int(parsed_data['message'])
+        print(value)
 
-client_socket.close()
-server_socket.close()
+# client_socket.close()
+# server_socket.close()
 

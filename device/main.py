@@ -26,6 +26,8 @@ def run(args):
     print("===============")
     server_ip = '10.82.211.224'
     server_port = 8080
+    client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    client_socket.connect((server_ip, server_port))
     while True:
         frame = sp.get()
         if frame is None:
@@ -40,13 +42,9 @@ def run(args):
         data = {"message": str(ort_output.argmax(axis=1)[0])}
         json_data = json.dumps(data)
 
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
-        client_socket.connect((server_ip, server_port))
-
         client_socket.sendall(json_data.encode('utf-8'))
 
-        client_socket.close()
+    # client_socket.close()
 
 '''
 0 -> angry
