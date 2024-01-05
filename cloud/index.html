@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Demo</title>
+    <style>
+        #messages {
+            border: 1px solid black;
+            height: 200px;
+            overflow: auto;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>WebSocket Demo</h1>
+    <div id="messages"></div>
+
+    <script>
+        var ws = new WebSocket('ws://10.82.77.104:8081'); // 替换为你的 WebSocket 服务器地址
+        var messages = document.getElementById('messages');
+
+        ws.onmessage = function(event) {
+            var message = document.createElement('div');
+            message.textContent = event.data;
+            messages.appendChild(message);
+        };
+    </script>
+</body>
+</html>
