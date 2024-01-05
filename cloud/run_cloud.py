@@ -17,8 +17,8 @@ print(f"connect: {client_address}")
 
 while True:
     data = client_socket.recv(1024).decode('utf-8')
-    if not data:
-        break
+    # if not data:
+    #     break
     print(f"receive: {data}")
     parsed_data = json.loads(data)
     value = int(parsed_data['message'])
