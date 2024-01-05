@@ -13,6 +13,8 @@ def parse_args():
     parser.add_argument("--emo_model", default="./model/emo_det.onnx")
     parser.add_argument("--split_model", default="./model/centerface.onnx")
     parser.add_argument("--video_path", default="./data/video/in.mp4")
+    parser.add_argument("--server_ip", default="10.82.77.104")
+    parser.add_argument("--server_port", default=8080)
     args = parser.parse_args()
     return args
 
@@ -24,8 +26,8 @@ def run(args):
     thread = threading.Thread(target=run_pic_split)
     thread.start()
     print("===============")
-    server_ip = '10.82.211.224'
-    server_port = 8080
+    server_ip = args.server_ip
+    server_port = args.server_port
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     client_socket.connect((server_ip, server_port))
     while True:
