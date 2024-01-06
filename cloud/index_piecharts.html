@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>WebSocket Pie Chart Demo</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>WebSocket Pie Chart Demo</h1>
+    <canvas id="pieChart" width="10" height="10"></canvas>
+
+    <script>
+        var ctx = document.getElementById('pieChart').getContext('2d');
+        var pieChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: ["Angry", "Disgust", "Fear", "Happy", "Neutral", "Sad", "Surprise"],
+                datasets: [{
+                    data: [0, 0, 0, 0, 0, 0, 0], // Initial data, all values are 0
+                    backgroundColor: ['#FF5733', '#33FF57', '#3366FF', '#FFD633', '#BFBFBF', '#3333FF', '#FF33CC']
+                }]
+            },
+        });
+
+        var ws = new WebSocket('ws://10.82.77.104:8081'); // Replace with your WebSocket server address
+
+        ws.onmessage = function(event) {
+            var data = JSON.parse(event.data);
+            if (data.message >= 0 && data.message <= 6) {
+                // Update the dataset based on the received message value
+                pieChart.data.datasets[0].data[data.message]++;
+                // Update the chart
+                pieChart.update();
+            }
+        };
+    </script>
+</body>
+</html>
