@@ -3,7 +3,7 @@ import json
 
 # 设置服务器的IP地址和端口
 server_ip = '0.0.0.0'  # 0.0.0.0 表示绑定到所有可用的接口
-server_port = 12345
+server_port = 8080
 
 # 创建socket
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
