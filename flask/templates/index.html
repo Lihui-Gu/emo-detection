@@ -4,10 +4,48 @@
     <meta charset="UTF-8">
     <title>学生专注度评价</title>
     <script src="../static/echarts.min.js"></script>
+    <script src="../static/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../static/styles.css">
 </head>
 <body>
+<div id="form-div">
+    <form id="search-form">
+        <div class="form-row">
+            <div class="form-group">
+                <label for="class_id">班级ID：</label>
+                <select name="class_id" id="class_id">
+                    <!-- 这里将通过JavaScript动态填充选项 -->
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="class_time">上课时间：</label>
+                <select name="class_time" id="class_time">
+                    <!-- 这里将通过JavaScript动态填充选项 -->
+                </select>
+            </div>
+            <button type="submit">查询</button>
+        </div>
+    </form>
+</div>
 <div id="main" style="width:1000px;height:400px"></div>
 <script type="text/javascript">
+    $(document).ready(function() {
+        // 获取所有class_id和class_time的值
+        $.ajax({
+            url: '/get_options',
+            method: 'POST',
+            success: function(data) {
+                let class_ids = data["class_id_results"];
+                let class_times = data["class_time_results"];
+                console.log(data);
+
+                // 填充class_id和class_time的下拉选择框
+                $('#class_id').html(class_ids.map(id => `<option value="${id}">${id}</option>`).join(''));
+                $('#class_time').html(class_times.map(time => `<option value="${time}">${time}</option>`).join(''));
+            }
+        });
+    });
+
       // 基于准备好的dom，初始化echarts实例
       var myChart = echarts.init(document.getElementById('main'));
 
@@ -48,8 +86,21 @@
       // 使用刚指定的配置项和数据显示图表。
       myChart.setOption(option);
 
-
-
+    // 处理查询请求
+    $('#search-form').on('submit', function(event) {
+        event.preventDefault();
+        let formData = $(this).serialize();
+        $.ajax({
+            url: '/search',
+            method: 'POST',
+            data: formData,
+            success: function(ret_data) {
+                console.log(ret_data)
+                option.series[0].data = ret_data;
+                myChart.setOption(option);
+            }
+        });
+    });
 
 </script>
 

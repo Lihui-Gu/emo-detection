@@ -1,0 +1,38 @@
+/* 样式化表单行 */
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px; /* 用于分隔表单行 */
+    max-width: 600px; /* 设置最大宽度为600px，根据需要调整此值 */
+    width: 100%; /* 让表单内容在最大宽度内居中 */
+    margin: 0 auto;
+}
+
+/* 样式化表单组件 */
+.form-group {
+    /* flex: 1; */
+    margin-right: 10px; /* 用于分隔表单组件 */
+}
+
+#form-div {
+    margin: 20px auto;
+}
+
+/* 样式化提交按钮 */
+button[type="submit"] {
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 8px; /* 添加圆角 */
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
+
+#main{
+    margin: 0 auto;
+}
